@@ -377,13 +377,13 @@
                         <img src="../imagens/eu.png" alt="[]" class="user">
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="logout.jsp">Sair</a></li>
                         <li><a class="dropdown-item" href="#">Meus Dados</a></li>
+                        <li><a class="dropdown-item" href="logout.jsp">Sair</a></li>
                         <li>
                             <a class="dropdown-item" href="#">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch" id="darkMode">
-                                    <label class="form-check-label" for="darkMode">Visualização</label>
+                                    <label class="form-check-label" for="darkMode">Modo Escuro</label>
                                 </div>
                             </a>
                         </li>
