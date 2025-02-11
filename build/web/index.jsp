@@ -13,10 +13,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LOGIN - Licita PRO</title>
+        <title>| LOGIN - JurisSmart |</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="./css/style.css">
-        <link rel="icon" href="./imagens/icons/home/head-gear-svgrepo-com.svg" type="image/x-icon">
+        <link rel="icon" href="imagens/icons/template/head-gear-svgrepo-com.svg" type="image/x-icon">
 
         <style>
             body {
@@ -177,10 +177,10 @@
 
                 try {
                     st = new Conexao().conectar().createStatement();
-                    rs = st.executeQuery("SELECT * FROM usuario WHERE nome = '" + usuario + "' AND senha = '" + senha + "'");
+                    rs = st.executeQuery("SELECT * FROM usuario WHERE email = '" + usuario + "' AND senha = '" + senha + "'");
                     while (rs.next()) {
-                        user = rs.getString(2);
-                        pass = rs.getString(3);
+                        user = rs.getString(3);
+                        pass = rs.getString(8);
                         //rs.last();
                         //i = rs.getRow();
                     }
@@ -196,27 +196,27 @@
                         session.setAttribute("emailUsuario", user);
                         response.sendRedirect(request.getContextPath() + "/view/home.jsp");
                     } else { %>
-                    <script src="js/popup.js"></script>
+            <script src="js/popup.js"></script>
             <%}
                 }
             %>
         </div>
         <script>
-            function togglePassword() {
-                const passwordInput = document.getElementById("txtSenha");
-                const eyeOpen = document.getElementById("eyeOpen");
-                const eyeClosed = document.getElementById("eyeClosed");
+                            function togglePassword() {
+                                const passwordInput = document.getElementById("txtSenha");
+                                const eyeOpen = document.getElementById("eyeOpen");
+                                const eyeClosed = document.getElementById("eyeClosed");
 
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text";
-                    eyeOpen.style.display = "none";
-                    eyeClosed.style.display = "inline";
-                } else {
-                    passwordInput.type = "password";
-                    eyeOpen.style.display = "inline";
-                    eyeClosed.style.display = "none";
-                }
-            }
+                                if (passwordInput.type === "password") {
+                                    passwordInput.type = "text";
+                                    eyeOpen.style.display = "none";
+                                    eyeClosed.style.display = "inline";
+                                } else {
+                                    passwordInput.type = "password";
+                                    eyeOpen.style.display = "inline";
+                                    eyeClosed.style.display = "none";
+                                }
+                            }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

@@ -5,11 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuItems = document.querySelectorAll('.menu-item');
     const subMenuItems = document.querySelectorAll('.submenu-item');
 
-    menu.addEventListener('click', () => {
-        sidebar.classList.toggle('menu-toggle');
-        menu.classList.toggle('menu-toggle');
-        main.classList.toggle('menu-toggle');
-    });
+    if (menu) {
+        menu.addEventListener('click', () => {
+            sidebar.classList.toggle('menu-toggle');
+            menu.classList.toggle('menu-toggle');
+            main.classList.toggle('menu-toggle');
+        });
+    }
 
     menuItems.forEach(item => {
         item.addEventListener('click', (event) => {
@@ -77,30 +79,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Modo Escuro Persistente
+
 document.addEventListener('DOMContentLoaded', () => {
     const toggleSwitch = document.getElementById('darkMode');
     const body = document.body;
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
-    if (localStorage.getItem('dark-mode') === 'enabled') {
-        body.classList.add('dark-mode');
-        dropdownMenu.classList.add('dropdown-menu-dark');
-        toggleSwitch.checked = true;
+    function applyDarkMode() {
+        if (localStorage.getItem('dark-mode') === 'enabled') {
+            body.classList.add('dark-mode');
+            if (dropdownMenu)
+                dropdownMenu.classList.add('dropdown-menu-dark');
+            if (toggleSwitch)
+                toggleSwitch.checked = true;
+        } else {
+            body.classList.remove('dark-mode');
+            if (dropdownMenu)
+                dropdownMenu.classList.remove('dropdown-menu-dark');
+            if (toggleSwitch)
+                toggleSwitch.checked = false;
+        }
     }
 
-    toggleSwitch.addEventListener('change', () => {
-        body.classList.add('transition-mode');
+    // Aplica o tema salvo no localStorage
+    applyDarkMode();
 
-        setTimeout(() => {
-            if (toggleSwitch.checked) {
-                body.classList.add('dark-mode');
-                dropdownMenu.classList.add('dropdown-menu-dark');
-                localStorage.setItem('dark-mode', 'enabled');
-            } else {
-                body.classList.remove('dark-mode');
-                dropdownMenu.classList.remove('dropdown-menu-dark');
-                localStorage.setItem('dark-mode', 'disabled');
-            }
-        }, 150);
-    });
+    // Garante que o tema seja reaplicado ao voltar para a página
+    window.addEventListener('pageshow', applyDarkMode);
+
+    // Verifica se o botão de alternância existe antes de adicionar o evento
+    if (toggleSwitch) {
+        toggleSwitch.addEventListener('change', () => {
+            body.classList.add('transition-mode');
+
+            setTimeout(() => {
+                if (toggleSwitch.checked) {
+                    body.classList.add('dark-mode');
+                    if (dropdownMenu)
+                        dropdownMenu.classList.add('dropdown-menu-dark');
+                    localStorage.setItem('dark-mode', 'enabled');
+                } else {
+                    body.classList.remove('dark-mode');
+                    if (dropdownMenu)
+                        dropdownMenu.classList.remove('dropdown-menu-dark');
+                    localStorage.setItem('dark-mode', 'disabled');
+                }
+            }, 150);
+        });
+    }
 });

@@ -1,12 +1,13 @@
 <%@ include file="./template/_cabecalho.jsp" %>
 <%@ include file="./template/_lateral.jsp" %>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="pt-br">
 
+<html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>| JurisSmart - Home |</title>       
+        <title>| JurisSmart |</title>       
     </head>
 
     <body>
