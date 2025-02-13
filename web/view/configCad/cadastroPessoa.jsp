@@ -1,7 +1,7 @@
 <%@ include file="../template/_cabecalho.jsp" %>
 <%@ include file="../template/_lateral.jsp" %>
 
-<% String pag = "cadastroUsuario";%>
+<% String pag = "cadastroPessoa";%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>| JurisSmart - Usuário |</title>
+        <title>| JurisSmart - Pessoa |</title>
         <style>
             main img {
                 width: 50px;
@@ -101,40 +101,18 @@
                 width: 30px;
             }
 
-            .modalCadastrarUsuario {
+            .modalCadastrarPessoa {
                 margin-top: 80px;
             }
 
-            .modalCadastrarUsuario .modal-body {
+            .modalCadastrarPessoa .modal-body {
                 max-height: calc(80vh - 120px);
                 overflow-y: auto;
             }
 
-            .modalCadastrarUsuario .input-file {
-                text-align: center;
+            .dark-mode .container .modal-body {
+                background-color: var(--background-color);
             }
-
-            .modalCadastrarUsuario .input-file img {
-                max-height: 150px;
-            }
-
-            .modalCadastrarUsuario .modal-body input::placeholder {
-                color: rgba(0, 0, 0, 0.3);
-            }
-
-            .modalCadastrarUsuario .image-label {
-                background-color: rgb(19, 125, 247);
-                color: white;
-                width: 100%;
-                height: 30px;
-                text-align: center;
-                cursor: pointer;
-                border: none;
-                border-radius: 5px;
-                margin-top: 15px;
-            }
-
-
 
             /* POPUP */
             .alert-danger {
@@ -172,14 +150,14 @@
             <div class="search">
                 <div class="search-left">
                     <form method="post" id="search" class="search">
-                        <button type="submit" id="btn-buscar" name="btn-buscar" title="[Consultar Usuário]">
+                        <button type="submit" id="btn-buscar" name="btn-buscar" title="[Consultar Pessoa]">
                             <img src="<%= request.getContextPath()%>/imagens/icons/cadastro/search-alt-2-svgrepo-com.svg" alt="[Buscar]">
                         </button>
                         <input type="search" name="buscar" id="buscar" placeholder="Buscar pelo nome" class="form-control">
                     </form>
                 </div>
                 <div class="search-right">
-                    <a href="<%=pag%>.jsp?funcao=novo" id="bt-novo-cad-funcoes" title="Novo Cadastro">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#cadastrarPessoaModal" onclick="setModalText('Cadastrar Pessoa')">
                         <img src="<%= request.getContextPath()%>/imagens/icons/cadastro/plus-square-svgrepo-com.svg" alt="[Adicionar Novo]">
                     </a>
                 </div>
@@ -190,12 +168,11 @@
             </div>
         </main>
 
-        <div class="modal fade modalCadastrarUsuario" id="cadastrarUsuarioModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal fade modalCadastrarPessoa" id="cadastrarPessoaModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content modal-content-scrollable">
                     <div class="modal-header">
                         <%
-                            String titulo = "";
                             String nome = "";
                             String email = "";
                             String fone = "";
@@ -207,15 +184,14 @@
                             String departamento = "";
                             String dataAdmissao = "";
                             String status = "";
-                            String fotoPerfil = "user.webp";
+                            String fotoPerfil = "";
                             String observacoes = "";
                             String id = "";
                             if (request.getParameter("id") != null) {
-                                titulo = "Editar Usuário";
                                 id = request.getParameter("id");
                                 try {
                                     st = new Conexao().conectar().createStatement();
-                                    rs = st.executeQuery("SELECT * FROM usuario WHERE id = '" + id + "'");
+                                    rs = st.executeQuery("SELECT * FROM pessoa WHERE id = '" + id + "'");
                                     while (rs.next()) {
                                         nome = rs.getString(2);
                                         email = rs.getString(3);
@@ -234,14 +210,11 @@
                                 } catch (Exception e) {
                                     out.print(e);
                                 }
-                            } else {
-                                titulo = "Cadastrar Usuário";
                             }
                         %>
 
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            <%=titulo%>
-                        </h1>
+                        <h5 class="modal-title" id="titulo"></h5>
+
                         <button type="button" class="btn-close" id="btn-fechar" name="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form method="post" id="fc">
@@ -249,96 +222,85 @@
                             <input type="hidden" name="txtantigo" id="txtantigo" >
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-2 col-sm-3">
-                                        <div class="input-file mt-3">
-                                            <img class="img-thumbnail img-fluid" id="target" name="target" src="../../img/usuario/<%=fotoPerfil%>" alt="Pré-visualização da Foto" />
-                                        </div>
-                                        <input value="<%=fotoPerfil%>" type="file" class="form-control" hidden="none" name="fotoPerfil[]" id="fotoPerfil" placeholder="Inserir arquivo da norma" onchange="carregarImg();">
-                                        <label class="image-label" for="fotoPerfil">Inserir Foto</label>
-                                    </div>
-
-                                    <div class="col-md-10 col-sm-9 mt-3">
-                                        <div class="col-md-12">
-                                            <label for="nome" class="col-form-label">Nome</label>
-                                            <input value="<%=nome%>" type="text" class="form-control" id="nome" name="nome" placeholder="Digite o seu nome" maxlength="100" required/>
-                                        </div>
-                                        <div class="col-md- mt-3">
-                                            <label for="email" class="col-form-label">Email</label>
-                                            <input value="<%=email%>" type="email" class="form-control" id="email" name="email" placeholder="Digite o seu email" maxlength="50" required/>
-                                        </div>
-                                    </div>
-
                                     <div class="col-md-6">
+                                        <label for="nome" class="col-form-label">Nome</label>
+                                        <input value="<%=nome%>" type="text" class="form-control" id="nome" name="nome" placeholder="Digite aqui o nome do usuário" maxlength="255">
+                                    </div>
+                                    <div class="col-md-6 mt-2">
+                                        <label for="email" class="col-form-label">E-mail</label>
+                                        <input value="<%=email%>" type="text" class="form-control" id="email" name="email" placeholder="Digite aqui o email do usuário" maxlength="255">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
                                         <label for="fone" class="col-form-label">Telefone</label>
                                         <input value="<%=fone%>" type="text" class="form-control" id="fone" name="fone" placeholder="Digite aqui o número do usuário" maxlength="255">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4 mt-2">
                                         <label for="cpf" class="col-form-label">CPF</label>
                                         <input value="<%=cpf%>" type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite aqui o cpf do usuário" maxlength="255">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-group mt-2">
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4 mt-2">
                                         <label for="dataNasc" class="col-form-label">Data de Nascimento</label>
                                         <input value="<%=dataNasc%>" type="date" class="form-control" id="dataNasc" name="dataNasc" placeholder="Digite aqui a data de nascimento do usuário">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="permissao" class="col-form-label">Permissão</label>
-                                        <input value="<%=permissao%>" type="text" class="form-control" id="permissao" name="permissao" placeholder="Digite aqui a permissão do usuário">
-                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group mt-2">
+                            <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mt-2">
                                         <label for="senha" class="col-form-label">Senha</label>
                                         <input value="<%=senha%>" type="password" class="form-control" id="senha" name="senha" placeholder="Digite aqui a senha do usuário" maxlength="255">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mt-2">
                                         <label for="senha" class="col-form-label">Senha</label>
                                         <input value="<%=senha%>" type="password" class="form-control" id="senha" name="senha" placeholder="Digite aqui a senha do usuário" maxlength="255">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mt-2">
+                            <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4 mt-2">
                                         <label for="funcao" class="col-form-label">Função</label>
                                         <input value="<%=funcao%>" type="text" class="form-control" id="funcao" name="funcao" placeholder="Digite aqui a função do usuário">
                                     </div>
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-4 mt-2">
+                                        <label for="permissao" class="col-form-label">Permissão</label>
+                                        <input value="<%=permissao%>" type="text" class="form-control" id="permissao" name="permissao" placeholder="Digite aqui a permissão do usuário">
+                                    </div>
+                                    <div class="col-md-4 mt-2">
                                         <label for="departamento" class="col-form-label">Departamento</label>
                                         <input value="<%=departamento%>" type="text" class="form-control" id="departamento" name="departamento" placeholder="Digite aqui o departamento do usuário">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mt-2">
+                            <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3 mt-2">
                                         <label for="dataAdmissao" class="col-form-label">Data de Admissao</label>
-                                        <input value="<%=dataAdmissao%>" type="date" class="form-control" id="dataAdmissao" name="dataAdmissao" placeholder="Digite aqui a data de admissão do usuário">
+                                        <input value="<%=dataAdmissao%>" type="text" class="form-control" id="dataAdmissao" name="dataAdmissao" placeholder="Digite aqui a data de admissão do usuário">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3 mt-2">
                                         <label for="status" class="col-form-label">Status</label>
                                         <input value="<%=status%>" type="text" class="form-control" id="status" name="status" placeholder="Digite aqui o status do usuário">
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3 mt-2">
+                                        <label for="fotoPerfil" class="col-form-label">Foto Perfil</label>
+                                        <input value="<%=fotoPerfil%>" type="text" class="form-control" id="fotoPerfil" name="fotoPerfil" maxlength="255">
+                                    </div>
+                                    <div class="col-md-3 mt-2">
                                         <label for="observacoes" class="col-form-label">Observações</label>
-                                        <textarea class="form-control" id="observacoes" name="observacoes" rows="2" placeholder="Digite aqui as observações"><%=observacoes%></textarea>
+                                        <textarea class="form-control" id="observacoes" name="observacoes" rows="1" placeholder="Digite aqui as observações"><%=observacoes%></textarea>
                                     </div>
                                 </div>
                             </div>
                             <input value="<%=id%>" type="hidden" name="txtid" id="txtid">
-                            <input value="<%=email%>" type="hidden" name="antigo" id="antigo">
+                            <input value="<%=nome%>" type="hidden" name="antigo" id="antigo">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="btn-fechar" name="btn-fechar" data-bs-dismiss="modal">Cancelar</button>
@@ -362,25 +324,17 @@
                         Deseja realmente excluir o registro selecionado?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="btn-fechar" name="btn-fechar" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" id="btn-salvar" name="btn-salvar">Salvar</button>
+                        <button type="button" class="btn btn-secondary" id="btn-cancelar" name="btn-cancelar" data-bs-dismiss="modal">Não</button>
+                        <button type="button" class="btn btn-danger" id="btn-confirma-excluir" name="btn-confirma-excluir">Sim</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- FUNÇÃO PARA MODAL INSERIR -->
-        <%
-            if (request.getParameter("funcao") != null && request.getParameter("funcao").equals("novo")) {
-                out.println("<script>$(document).ready(function () {$('#cadastrarUsuarioModal').modal('show');});</script>");
-            }
-        %>
-        <!-- FUNÇÃO PARA MODAL INSERIR -->
-
         <!-- FUNÇÃO PARA MODAL EDITAR -->
         <%
             if (request.getParameter("funcao") != null && request.getParameter("funcao").equals("editar")) {
-                out.println("<script>$(document).ready(function () {$('#cadastrarUsuarioModal').modal('show');});</script>");
+                out.println("<script>$(document).ready(function () {$('#cadastrarPessoaModal').modal('show');});</script>");
             }
         %>
         <!-- FUNÇÃO PARA MODAL EDITAR -->
@@ -400,136 +354,91 @@
             }
         </script>
 
-        <!-- SCRIPT PARA SUBIR IMAGEM PARA O SERVIDOR -->
+        <!-- AJAX PARA INSERSÃO DE DADOS SEM IMAGEM-->
         <script type="text/javascript">
-            function carregarImg() {
-                var file = document.getElementById("fotoPerfil");
-                var target = document.getElementById("target");
-                var reader = new FileReader();
-                reader.onloadend = function () {
-                    target.src = reader.result;
-                };
-                if (file.files[0]) {
-                    reader.readAsDataURL(file.files[0]);
-                } else {
-                    target.src = "";
-                }
-            }
-        </script>
-        <!-- SCRIPT PARA SUBIR IMAGEM PARA O SERVIDOR -->
-
-        <!-- AJAX PARA INSERSÃO DE DADOS COM IMAGEM-->
-        <script type="text/javascript">
-            $("#fc").submit(function () {
-                event.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    url: "../../ajax/usuario/upload.jsp",
-                    type: 'POST',
-                    data: formData,
-                    success: function (mensagem) {
-                        $('#mensagem').removeClass();
-                        if (mensagem.trim() === "Salvo") {
-                            function showPopupSuccess(message) {
-                                var popup = document.createElement('div');
-                                popup.className = 'alert alert-success';
-                                popup.innerHTML = '<div class="alert alert-success">' + message + '</div>';
-                                document.body.appendChild(popup);
-                                setTimeout(function () {
-                                    popup.style.opacity = '0';
+            $(document).ready(function () {
+                $('#btn-salvar').click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: "../../ajax/pessoa/inserir.jsp",
+                        method: "post",
+                        data: $('#fc').serialize(),
+                        dataType: "text",
+                        success: function (mensagem) {
+                            $('#mensagem').removeClass();
+                            if (mensagem.trim() === "Salvo") {
+                                function showPopupSuccess(message) {
+                                    var popup = document.createElement('div');
+                                    popup.className = 'alert alert-success';
+                                    popup.innerHTML = '<div class="alert alert-success" role="alert">' + message + '</div>';
+                                    document.body.appendChild(popup);
                                     setTimeout(function () {
-                                        popup.remove();
-                                    }, 300);
-                                }, 5000);
-                            }
-                            $('#btn-fechar').click();
-                            $('#btn-buscar').click();
-                            showPopupSuccess('Cadastrado Com Sucesso!');
-                        } else if (mensagem.trim() === "Duplo") {
-                            function showPopup(message) {
-                                var popup = document.createElement('div');
-                                popup.className = 'alert alert-danger';
-                                popup.innerHTML = '<div class="alert alert-danger" role="alert">' + message + '</div>';
-                                document.body.appendChild(popup);
-                                setTimeout(function () {
-                                    popup.style.opacity = '0';
+                                        popup.style.opacity = '0';
+                                        setTimeout(function () {
+                                            popup.remove();
+                                        }, 300);
+                                    }, 5000);
+                                }
+                                $('#btn-fechar').click();
+                                $('#btn-buscar').click();
+                                showPopupSuccess('Cadastrado Com Sucesso!');
+                            } else if (mensagem.trim() === "Duplo") {
+                                function showPopup(message) {
+                                    var popup = document.createElement('div');
+                                    popup.className = 'alert alert-danger';
+                                    popup.innerHTML = '<div class="alert alert-danger" role="alert">' + message + '</div>';
+                                    document.body.appendChild(popup);
                                     setTimeout(function () {
-                                        popup.remove();
-                                    }, 300);
-                                }, 5000);
-                            }
-                            $('#btn-fechar').click();
-                            $('#btn-buscar').click();
-                            showPopup('Registro já cadastrado!');
-                        } else if (mensagem.trim() === "Preencha") {
-                            function showPopup(message) {
-                                var popup = document.createElement('div');
-                                popup.className = 'alert alert-danger';
-                                popup.innerHTML = '<div class="alert alert-danger" role="alert">' + message + '</div>';
-                                document.body.appendChild(popup);
-                                setTimeout(function () {
-                                    popup.style.opacity = '0';
+                                        popup.style.opacity = '0';
+                                        setTimeout(function () {
+                                            popup.remove();
+                                        }, 300);
+                                    }, 5000);
+                                }
+                                showPopup('Registro já cadastrado!');
+                            } else if (mensagem.trim() === "Preencha") {
+                                function showPopup(message) {
+                                    var popup = document.createElement('div');
+                                    popup.className = 'alert alert-danger';
+                                    popup.innerHTML = '<div class="alert alert-danger" role="alert">' + message + '</div>';
+                                    document.body.appendChild(popup);
                                     setTimeout(function () {
-                                        popup.remove();
-                                    }, 300);
-                                }, 5000);
-                            }
-                            showPopup('Preencha Todos os Campos');
-                        } else if (mensagem.trim() === "Diferente") {
-                            function showPopup(message) {
-                                var popup = document.createElement('div');
-                                popup.className = 'alert alert-danger';
-                                popup.innerHTML = '<div class="alert alert-danger" role="alert">' + message + '</div>';
-                                document.body.appendChild(popup);
-                                setTimeout(function () {
-                                    popup.style.opacity = '0';
+                                        popup.style.opacity = '0';
+                                        setTimeout(function () {
+                                            popup.remove();
+                                        }, 300);
+                                    }, 5000);
+                                }
+                                showPopup('Preencha Todos os Campos!');
+                            } else {
+                                function showPopup(message) {
+                                    var popup = document.createElement('div');
+                                    popup.className = 'alert alert-danger';
+                                    popup.innerHTML = '<div class="alert alert-danger" role="alert">' + message + '</div>';
+                                    document.body.appendChild(popup);
                                     setTimeout(function () {
-                                        popup.remove();
-                                    }, 300);
-                                }, 5000);
+                                        popup.style.opacity = '0';
+                                        setTimeout(function () {
+                                            popup.remove();
+                                        }, 300);
+                                    }, 5000);
+                                }
+                                $('#btn-fechar').click();
+                                showPopup('Erro ao Cadastrar!');
                             }
-                            showPopup('As Senhas Não Conferem!');
-                        } else {
-                            function showPopup(message) {
-                                var popup = document.createElement('div');
-                                popup.className = 'alert alert-danger';
-                                popup.innerHTML = '<div class="alert alert-danger" role="alert">' + message + '</div>';
-                                document.body.appendChild(popup);
-                                setTimeout(function () {
-                                    popup.style.opacity = '0';
-                                    setTimeout(function () {
-                                        popup.remove();
-                                    }, 300);
-                                }, 5000);
-                            }
-                            $('#btn-fechar').click();
-                            $('#btn-buscar').click();
-                            showPopup('Erro ao Cadastrar!');
+                            $('#mensagem').text(mensagem);
                         }
-                        $('#mensagem').text(mensagem);
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    xhr: function () {  // Custom XMLHttpRequest
-                        var myXhr = $.ajaxSettings.xhr();
-                        if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
-                            myXhr.upload.addEventListener('progress', function () {
-                                /* faz alguma coisa durante o progresso do upload */
-                            }, false);
-                        }
-                        return myXhr;
-                    }
+                    });
                 });
             });
         </script>
-        <!-- AJAX PARA INSERSÃO DE DADOS COM IMAGEM-->
+        <!-- AJAX PARA INSERSÃO DE DADOS -->
 
         <!--AJAX PARA LISTAR OS DADOS -->
         <script type="text/javascript">
             $(document).ready(function () {
                 $.ajax({
-                    url: "../../ajax/usuario/listar.jsp",
+                    url: "../../ajax/pessoa/listar.jsp",
                     method: "post",
                     dataType: "html",
                     success: function (result) {
@@ -549,7 +458,7 @@
             $('#btn-buscar').click(function (event) {
                 event.preventDefault();
                 $.ajax({
-                    url: "../../ajax/usuario/listar.jsp",
+                    url: "../../ajax/pessoa/listar.jsp",
                     method: "post",
                     data: $('form').serialize(),
                     dataType: "html",
@@ -575,7 +484,7 @@
                 $('#btn-confirma-excluir').click(function (event) {
                     event.preventDefault();
                     $.ajax({
-                        url: "../../ajax/usuario/excluir.jsp",
+                        url: "../../ajax/pessoa/excluir.jsp",
                         method: "post",
                         data: $('form').serialize(),
                         dataType: "text",

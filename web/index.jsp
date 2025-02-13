@@ -171,7 +171,7 @@
                 String usuario = request.getParameter("txtUsuario");
                 String senha = request.getParameter("txtSenha");
 
-                String user = "", pass = "";
+                String user = "", pass = "", image = "";
 
                 int i = 0;
 
@@ -181,6 +181,7 @@
                     while (rs.next()) {
                         user = rs.getString(3);
                         pass = rs.getString(8);
+                        image = rs.getString(13);
                         //rs.last();
                         //i = rs.getRow();
                     }
@@ -194,6 +195,7 @@
                 } else {
                     if (usuario.equals(user) && senha.equals(pass)) {
                         session.setAttribute("emailUsuario", user);
+                        session.setAttribute("fotoUser", image);
                         response.sendRedirect(request.getContextPath() + "/view/home.jsp");
                     } else { %>
             <script src="js/popup.js"></script>

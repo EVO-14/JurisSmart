@@ -84,21 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const toggleSwitch = document.getElementById('darkMode');
     const body = document.body;
+    const main = document.querySelector('main');
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
     function applyDarkMode() {
         if (localStorage.getItem('dark-mode') === 'enabled') {
             body.classList.add('dark-mode');
-            if (dropdownMenu)
-                dropdownMenu.classList.add('dropdown-menu-dark');
-            if (toggleSwitch)
-                toggleSwitch.checked = true;
+            if (main) main.classList.add('dark-mode');
+            if (dropdownMenu) dropdownMenu.classList.add('dropdown-menu-dark');
+            if (toggleSwitch) toggleSwitch.checked = true;
         } else {
             body.classList.remove('dark-mode');
-            if (dropdownMenu)
-                dropdownMenu.classList.remove('dropdown-menu-dark');
-            if (toggleSwitch)
-                toggleSwitch.checked = false;
+            if (main) main.classList.remove('dark-mode');
+            if (dropdownMenu) dropdownMenu.classList.remove('dropdown-menu-dark');
+            if (toggleSwitch) toggleSwitch.checked = false;
         }
     }
 
@@ -116,13 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 if (toggleSwitch.checked) {
                     body.classList.add('dark-mode');
-                    if (dropdownMenu)
-                        dropdownMenu.classList.add('dropdown-menu-dark');
+                    if (main) main.classList.add('dark-mode');
+                    if (dropdownMenu) dropdownMenu.classList.add('dropdown-menu-dark');
                     localStorage.setItem('dark-mode', 'enabled');
                 } else {
                     body.classList.remove('dark-mode');
-                    if (dropdownMenu)
-                        dropdownMenu.classList.remove('dropdown-menu-dark');
+                    if (main) main.classList.remove('dark-mode');
+                    if (dropdownMenu) dropdownMenu.classList.remove('dropdown-menu-dark');
                     localStorage.setItem('dark-mode', 'disabled');
                 }
             }, 150);

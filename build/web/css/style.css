@@ -8,6 +8,8 @@
     --icon-color: #000000;
     --icon-menu-color: #707780;
     --menu-color: #707780;
+    --table-cbc: #E6E9ED;
+    --table-body: #f7f7f7;
 
     --text-selected-color: #355CC0;
     --background-selected: #EBF0FF;
@@ -23,6 +25,8 @@
     --icon-color: #f7f7f7;
     --icon-menu-color: #f7f7f7;
     --menu-color: #f7f7f7;
+    --table-cbc: #1b1b1b;
+    --table-body: #161616;
 
     --text-selected-color: #f7f7f7;
     --background-selected: #2e2e2e;
@@ -44,21 +48,3 @@ body {
     height: 100vh;
 }
 
-.custom-popup {
-    position: fixed;
-    top: 85%; /* ajuste aqui para mover a janela para baixo */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #e70b0ba9;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 0.8s ease; /* Transição suave de opacidade */
-}
-
-.popup-content {
-    font-size: 16px;
-}

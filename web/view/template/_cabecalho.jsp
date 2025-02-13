@@ -137,6 +137,13 @@
 
 
             /*##*/
+            .left a {
+                text-decoration: none;
+            }
+
+
+
+            /*##*/
             .sidebar {
                 margin-top: 4rem;
                 width: 4rem;
@@ -216,8 +223,6 @@
             .dark-mode header img {
                 filter: invert(1);
             }
-
-
 
 
 
@@ -368,7 +373,7 @@
                 </div>
                 <div class="brand">
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/head-gear-svgrepo-com.svg" alt="[]" class="logo">
-                    <span class="name">JurisSmart</span>
+                    <a href="<%= request.getContextPath()%>/view/home.jsp" class="name">JurisSmart</a>
                 </div>
             </div>
             <div class="right">
@@ -383,11 +388,14 @@
                 </a>
                 <div class="dropdown">
                     <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<%= request.getContextPath()%>/imagens/eu.png" alt="[]" class="user">
+                        <%
+                            String fotoUser = (String) session.getAttribute("fotoUser");
+                        %>
+                        <img src="<%= request.getContextPath()%>/img/usuario/<%=fotoUser%>" alt="[]" class="user">
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Meus Dados</a></li>
-                        <li><a class="dropdown-item" href="logout.jsp">Sair</a></li>
+                        <li><a class="dropdown-item" href="<%= request.getContextPath()%>/view/logout.jsp">Sair</a></li>
                         <li>
                             <a class="dropdown-item" href="#">
                                 <div class="form-check form-switch">
