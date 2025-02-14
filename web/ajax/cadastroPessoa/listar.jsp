@@ -2,7 +2,7 @@
 <%@page import="com.mysql.jdbc.Driver"%>
 <%@page import="util.Conexao"%>  
 
-<% String pag = "cadastroUsuario"; %>
+<% String pag = "cadastroPessoa"; %>
 <% String buscar = request.getParameter("buscar"); %>
 
 <%
@@ -17,7 +17,7 @@
             + "<tr>"
             + "<th scope='col'>ID</th>"
             + "<th scope='col'>Nome</th>"
-            + "<th scope='col'>E-mail</th>"
+            + "<th scope='col'>CPF</th>"
             + "<th scope='col'>Ações</th>"
             + "</tr>"
             + "</thead>");

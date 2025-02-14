@@ -387,21 +387,14 @@
 
         <!-- FUNÇÃO PARA MODAL EXCLUIR -->
         <%
-            if (request.getParameter(
-                    "funcao") != null && request.getParameter("funcao").equals("excluir")) {
+            if (request.getParameter("funcao") != null && request.getParameter("funcao").equals("excluir")) {
                 out.println("<script>$(document).ready(function () {$('#modal-confima-delete').modal('show');});</script>");
             }
         %>
         <!-- FUNÇÃO PARA MODAL EXCLUIR -->
 
         <script>
-            function setModalText(text) {
-                document.getElementById('titulo').textContent = text;
-            }
-        </script>
-
-        <!-- SCRIPT PARA SUBIR IMAGEM PARA O SERVIDOR -->
-        <script type="text/javascript">
+            //SCRIPT PARA SUBIR IMAGEM PARA O SERVIDOR -->
             function carregarImg() {
                 var file = document.getElementById("fotoPerfil");
                 var target = document.getElementById("target");
@@ -415,16 +408,13 @@
                     target.src = "";
                 }
             }
-        </script>
-        <!-- SCRIPT PARA SUBIR IMAGEM PARA O SERVIDOR -->
 
-        <!-- AJAX PARA INSERSÃO DE DADOS COM IMAGEM-->
-        <script type="text/javascript">
+            // AJAX PARA INSERSÃO DE DADOS COM IMAGEM
             $("#fc").submit(function () {
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "../../ajax/usuario/upload.jsp",
+                    url: "<%= request.getContextPath()%>/ajax/<%=pag%>/upload.jsp",
                     type: 'POST',
                     data: formData,
                     success: function (mensagem) {
@@ -522,14 +512,11 @@
                     }
                 });
             });
-        </script>
-        <!-- AJAX PARA INSERSÃO DE DADOS COM IMAGEM-->
 
-        <!--AJAX PARA LISTAR OS DADOS -->
-        <script type="text/javascript">
+            // AJAX PARA LISTAR OS DADOS
             $(document).ready(function () {
                 $.ajax({
-                    url: "../../ajax/usuario/listar.jsp",
+                    url: "<%= request.getContextPath()%>/ajax/<%=pag%>/listar.jsp",
                     method: "post",
                     dataType: "html",
                     success: function (result) {
@@ -541,15 +528,12 @@
                     }
                 });
             });
-        </script>
-        <!--AJAX PARA LISTAR OS DADOS -->
 
-        <!--AJAX PARA BUSCAR DADOS PELO BOTÃO -->
-        <script type="text/javascript">
+            // AJAX PARA BUSCAR DADOS PELO BOTÃO
             $('#btn-buscar').click(function (event) {
                 event.preventDefault();
                 $.ajax({
-                    url: "../../ajax/usuario/listar.jsp",
+                    url: "<%= request.getContextPath()%>/ajax/<%=pag%>/listar.jsp",
                     method: "post",
                     data: $('form').serialize(),
                     dataType: "html",
@@ -558,24 +542,18 @@
                     }
                 });
             });
-        </script>
-        <!--AJAX PARA BUSCAR DADOS PELO BOTÃO -->
 
-        <!--AJAX PARA BUSCAR DADOS PELO TXT -->
-        <script type="text/javascript">
+            // AJAX PARA BUSCAR DADOS PELO TXT 
             $('#buscar').keyup(function () {
                 $('#btn-buscar').click();
             });
-        </script>
-        <!--AJAX PARA BUSCAR DADOS PELO TXT -->
 
-        <!--AJAX PARA EXCLUSÃO DOS DADOS -->
-        <script type="text/javascript">
+            // AJAX PARA EXCLUSÃO DOS DADOS 
             $(document).ready(function () {
                 $('#btn-confirma-excluir').click(function (event) {
                     event.preventDefault();
                     $.ajax({
-                        url: "../../ajax/usuario/excluir.jsp",
+                        url: "<%= request.getContextPath()%>/ajax/<%=pag%>/excluir.jsp",
                         method: "post",
                         data: $('form').serialize(),
                         dataType: "text",
@@ -607,7 +585,5 @@
                 });
             });
         </script>
-        <!--AJAX PARA EXCLUSÃO DOS DADOS -->
     </body>
-
 </html>

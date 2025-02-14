@@ -198,27 +198,42 @@
                         session.setAttribute("fotoUser", image);
                         response.sendRedirect(request.getContextPath() + "/view/home.jsp");
                     } else { %>
-            <script src="js/popup.js"></script>
+            <script>
+                function showPopup(message) {
+                    var popup = document.createElement('div');
+                    popup.className = 'custom-popup';
+                    popup.innerHTML = '<div class="popup-content">' + message + '</div>';
+                    document.body.appendChild(popup);
+
+                    setTimeout(function () {
+                        popup.style.opacity = '0';
+                        setTimeout(function () {
+                            popup.remove();
+                        }, 300);
+                    }, 5000);
+                }
+                showPopup("Dados Incorretos!");
+            </script>
             <%}
                 }
             %>
         </div>
         <script>
-                            function togglePassword() {
-                                const passwordInput = document.getElementById("txtSenha");
-                                const eyeOpen = document.getElementById("eyeOpen");
-                                const eyeClosed = document.getElementById("eyeClosed");
+            function togglePassword() {
+                const passwordInput = document.getElementById("txtSenha");
+                const eyeOpen = document.getElementById("eyeOpen");
+                const eyeClosed = document.getElementById("eyeClosed");
 
-                                if (passwordInput.type === "password") {
-                                    passwordInput.type = "text";
-                                    eyeOpen.style.display = "none";
-                                    eyeClosed.style.display = "inline";
-                                } else {
-                                    passwordInput.type = "password";
-                                    eyeOpen.style.display = "inline";
-                                    eyeClosed.style.display = "none";
-                                }
-                            }
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    eyeOpen.style.display = "none";
+                    eyeClosed.style.display = "inline";
+                } else {
+                    passwordInput.type = "password";
+                    eyeOpen.style.display = "inline";
+                    eyeClosed.style.display = "none";
+                }
+            }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

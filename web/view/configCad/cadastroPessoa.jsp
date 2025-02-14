@@ -142,6 +142,12 @@
             .popup-content-suc {
                 font-size: 16px;
             }
+
+            .invalid-feedback {
+                display: none;
+                color: red;
+                font-size: 0.9em;
+            }
         </style>
     </head>
 
@@ -157,14 +163,14 @@
                     </form>
                 </div>
                 <div class="search-right">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#cadastrarPessoaModal" onclick="setModalText('Cadastrar Pessoa')">
+                    <a href="<%=pag%>.jsp?funcao=novo" id="bt-novo-cad-funcoes" title="Novo Cadastro">
                         <img src="<%= request.getContextPath()%>/imagens/icons/cadastro/plus-square-svgrepo-com.svg" alt="[Adicionar Novo]">
                     </a>
                 </div>
             </div>
             <div class="container">
                 <div id="listar" class="listar"></div>
-                <div id="mensagem" hidden></div>
+                <div id="mensagem"></div>
             </div>
         </main>
 
@@ -173,6 +179,7 @@
                 <div class="modal-content modal-content-scrollable">
                     <div class="modal-header">
                         <%
+                            String titulo = "";
                             String nome = "";
                             String nacionalidade = "";
                             String estadoCivil = "";
@@ -219,6 +226,7 @@
                             String outros = "";
                             String id = "";
                             if (request.getParameter("id") != null) {
+                                titulo = "Editar Pessoa";
                                 id = request.getParameter("id");
                                 try {
                                     st = new Conexao().conectar().createStatement();
@@ -272,11 +280,14 @@
                                 } catch (Exception e) {
                                     out.print(e);
                                 }
+                            } else {
+                                titulo = "Cadastrar Pessoa";
                             }
                         %>
 
-                        <h5 class="modal-title" id="titulo"></h5>
-
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            <%=titulo%>
+                        </h1>
                         <button type="button" class="btn-close" id="btn-fechar" name="btn-fechar" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form method="post" id="fc">
@@ -298,7 +309,32 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="estadoCivil" class="col-form-label">Estado Civil</label>
-                                        <input value="<%=estadoCivil%>" type="text" class="form-control" id="estadoCivil" name="estadoCivil" placeholder="Digite o estado civil">
+                                        <select id="estadoCivil" name="estadoCivil" class="form-select" aria-label="Estado Civil">
+                                            <option value="" <%= estadoCivil.isEmpty() ? "disabled hidden" : ""%>>
+                                                <%
+                                                    switch (estadoCivil) {
+                                                        case "SO":
+                                                            out.print("Solteiro(a)");
+                                                            break;
+                                                        case "CA":
+                                                            out.print("Casado(a)");
+                                                            break;
+                                                        case "DI":
+                                                            out.print("Divorciado(a)");
+                                                            break;
+                                                        case "VI":
+                                                            out.print("Viúvo(a)");
+                                                            break;
+                                                        default:
+                                                            out.print("Selecione um estado civil");
+                                                    }
+                                                %>
+                                            </option>
+                                            <option value="SO" <%= estadoCivil.equals("SO") ? "hidden" : ""%>>Solteiro(a)</option>
+                                            <option value="CA" <%= estadoCivil.equals("CA") ? "hidden" : ""%>>Casado(a)</option>
+                                            <option value="DI" <%= estadoCivil.equals("DI") ? "hidden" : ""%>>Divorciado(a)</option>
+                                            <option value="VI" <%= estadoCivil.equals("VI") ? "hidden" : ""%>>Viúvo(a)</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="profissao" class="col-form-label">Profissão</label>
@@ -314,7 +350,28 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="sexo" class="col-form-label">Sexo</label>
-                                        <input value="<%=sexo%>" type="text" class="form-control" id="sexo" name="sexo" placeholder="Digite o sexo">
+                                        <select id="sexo" name="sexo" class="form-select" aria-label="Sexo">
+                                            <option value="" <%= sexo.isEmpty() ? "disabled hidden" : ""%>>
+                                                <%
+                                                    switch (sexo) {
+                                                        case "M":
+                                                            out.print("Masculino");
+                                                            break;
+                                                        case "F":
+                                                            out.print("Feminino");
+                                                            break;
+                                                        case "O":
+                                                            out.print("Outro");
+                                                            break;
+                                                        default:
+                                                            out.print("Selecione um estado civil");
+                                                    }
+                                                %>
+                                            </option>
+                                            <option value="M" <%= sexo.equals("M") ? "hidden" : ""%>>Masculino</option>
+                                            <option value="F" <%= sexo.equals("F") ? "hidden" : ""%>>Feminino</option>
+                                            <option value="O" <%= sexo.equals("O") ? "hidden" : ""%>>Outro</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -323,10 +380,68 @@
                                     <div class="col-md-4">
                                         <label for="rg" class="col-form-label">RG</label>
                                         <input value="<%=rg%>" type="text" class="form-control" id="rg" name="rg" placeholder="Digite o RG">
+                                        <span id="rg-invalid" class="invalid-feedback">RG inválido!</span>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="orgaoExpedidor" class="col-form-label">Órgão Expedidor</label>
-                                        <input value="<%=orgaoExpedidor%>" type="orgaoExpedidor" class="form-control" id="orgaoExpedidor" name="orgaoExpedidor" placeholder="Digite o órgão">
+                                        <select id="orgaoExpedidor" name="orgaoExpedidor" class="form-select" aria-label="Órgão Expedidor">
+                                            <option value="" <%= orgaoExpedidor.isEmpty() ? "disabled hidden" : ""%>>
+                                                <%
+                                                    switch (orgaoExpedidor) {
+                                                        case "SSP":
+                                                            out.print("Secretaria de Segurança Pública");
+                                                            break;
+                                                        case "PM":
+                                                            out.print("Polícia Militar");
+                                                            break;
+                                                        case "PC":
+                                                            out.print("Polícia Civil");
+                                                            break;
+                                                        case "CNT":
+                                                            out.print("Carteira Nacional de Habilitação");
+                                                            break;
+                                                        case "IFP":
+                                                            out.print("Instituto Félix Pacheco");
+                                                            break;
+                                                        case "DIC":
+                                                            out.print("Diretoria de Identificação Civil");
+                                                            break;
+                                                        case "CTPS":
+                                                            out.print("Carteira de Trabalho e Previdência Social");
+                                                            break;
+                                                        case "DPF":
+                                                            out.print("Departamento de Polícia Federal");
+                                                            break;
+                                                        case "MAE":
+                                                            out.print("Ministério da Aeronáutica");
+                                                            break;
+                                                        case "MEX":
+                                                            out.print("Ministério do Exército");
+                                                            break;
+                                                        case "MMA":
+                                                            out.print("Ministério da Marinha");
+                                                            break;
+                                                        case "SEAP":
+                                                            out.print("Secretaria de Administração Penitenciária");
+                                                            break;
+                                                        default:
+                                                            out.print("Selecione um órgão expedidor");
+                                                    }
+                                                %>
+                                            </option>
+                                            <option value="SSP" <%= orgaoExpedidor.equals("SSP") ? "hidden" : ""%>>Secretaria de Segurança Pública</option>
+                                            <option value="PM" <%= orgaoExpedidor.equals("PM") ? "hidden" : ""%>>Polícia Militar</option>
+                                            <option value="PC" <%= orgaoExpedidor.equals("PC") ? "hidden" : ""%>>Polícia Civil</option>
+                                            <option value="CNT" <%= orgaoExpedidor.equals("CNT") ? "hidden" : ""%>>Carteira Nacional de Habilitação</option>
+                                            <option value="IFP" <%= orgaoExpedidor.equals("IFP") ? "hidden" : ""%>>Instituto Félix Pacheco</option>
+                                            <option value="DIC" <%= orgaoExpedidor.equals("DIC") ? "hidden" : ""%>>Diretoria de Identificação Civil</option>
+                                            <option value="CTPS" <%= orgaoExpedidor.equals("CTPS") ? "hidden" : ""%>>Carteira de Trabalho e Previdência Social</option>
+                                            <option value="DPF" <%= orgaoExpedidor.equals("DPF") ? "hidden" : ""%>>Departamento de Polícia Federal</option>
+                                            <option value="MAE" <%= orgaoExpedidor.equals("MAE") ? "hidden" : ""%>>Ministério da Aeronáutica</option>
+                                            <option value="MEX" <%= orgaoExpedidor.equals("MEX") ? "hidden" : ""%>>Ministério do Exército</option>
+                                            <option value="MMA" <%= orgaoExpedidor.equals("MMA") ? "hidden" : ""%>>Ministério da Marinha</option>
+                                            <option value="SEAP" <%= orgaoExpedidor.equals("SEAP") ? "hidden" : ""%>>Secretaria de Administração Penitenciária</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="dataEmissao" class="col-form-label">Data de Emissão</label>
@@ -339,10 +454,12 @@
                                     <div class="col-md-6">
                                         <label for="cpf" class="col-form-label">CPF</label>
                                         <input value="<%=cpf%>" type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite o CPF">
+                                        <span id="cpf-invalid" class="invalid-feedback">CPF inválido!</span>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="cep" class="col-form-label">CEP</label>
                                         <input value="<%=cep%>" type="text" class="form-control" id="cep" name="cep" placeholder="Digite o CEP">
+                                        <span id="cep-invalid" class="invalid-feedback">CEP inválido!</span>
                                     </div>
                                 </div>
                             </div>
@@ -354,7 +471,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="estado" class="col-form-label">Estado</label>
-                                        <input value="<%=estado%>" type="text" class="form-control" id="estado" name="estado" placeholder="Digite o estado">
+                                        <input value="<%=estado%>" type="text" class="form-control" id="estado" name="estado" placeholder="Digite o estado" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -404,11 +521,33 @@
                             </div>
                             <div class="form-group mt-2">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <label for="estadoNatu" class="col-form-label">Estado de Naturalidade</label>
-                                        <input value="<%=estadoNatu%>" type="text" class="form-control" id="estadoNatu" name="estadoNatu" placeholder="Informe o estado">
+                                        <select id="estadoNatu" name="estadoNatu" class="form-select">
+                                            <!-- BUSCAGEM DE DADOS DE TABELAS NO SELECT -->
+                                            <%
+                                                String nomeEstadoNatu = "";
+                                                String ufEstadoNatu = "";
+                                                //RECUPERAR O NOME DO CAMPO PARA MOSTRAR INICIALMENTE NO SELECT
+                                                if (!estadoNatu.equals("")) {
+                                                    rs = st.executeQuery("SELECT * FROM estados WHERE uf = '" + estadoNatu + "'");
+                                                    while (rs.next()) {
+                                                        ufEstadoNatu = rs.getString(2);
+                                                    }
+                                                    out.println("<option value='" + estadoNatu + "'>" + ufEstadoNatu + "</option>");
+                                                }
+                                                st = new Conexao().conectar().createStatement();
+                                                rs = st.executeQuery("SELECT * FROM estados");
+
+                                                while (rs.next()) {
+                                                    if (!nomeEstadoNatu.equals(rs.getString(2))) {
+                                                        out.println("<option value='" + rs.getString(3) + "'>" + rs.getString(2) + "</option>");
+                                                    }
+                                                }
+                                            %>
+                                        </select>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <label for="cidadeNatu" class="col-form-label">Cidade de Naturalidade</label>
                                         <input value="<%=cidadeNatu%>" type="text" class="form-control" id="cidadeNatu" name="cidadeNatu" placeholder="Digite a cidade">
                                     </div>
@@ -430,8 +569,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="nomeSocial" class="col-form-label">Nome Social</label>
-                                        <span>*Apenas se houver um*</span>
-                                        <input value="<%=cidadeNatu%>" type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder="Digite o nome social">
+                                        <input value="<%=nomeSocial%>" type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder="Digite o nome social">
+                                        <span id="nomeSocial-invalid" class="invalid-feedback">Apenas se houver um!</span>
                                     </div>
                                 </div>
                             </div>
@@ -461,11 +600,11 @@
                             </div>
                             <div class="form-group mt-2">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <label for="regimeCasamento" class="col-form-label">Regime do Casamento</label>
                                         <input value="<%=regimeCasamento%>" type="text" class="form-control" id="regimeCasamento" name="regimeCasamento" placeholder="Informe o regime do casamento">
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <label for="conjuge" class="col-form-label">Nome do Cônjuge</label>
                                         <input value="<%=conjuge%>" type="text" class="form-control" id="conjuge" name="conjuge" placeholder="Digite o nome do cônjuge">
                                     </div>
@@ -474,7 +613,7 @@
                             <div class="form-group mt-2">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="estadoNatu" class="col-form-label">Número do Casamento</label>
+                                        <label for="numeroCasamento" class="col-form-label">Número do Casamento</label>
                                         <input value="<%=numeroCasamento%>" type="text" class="form-control" id="numeroCasamento" name="numeroCasamento" placeholder="Digite o número">
                                     </div>
                                     <div class="col-md-6">
@@ -503,7 +642,29 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="estadoCasamento" class="col-form-label">Estado do Casamento</label>
-                                        <input value="<%=estadoCasamento%>" type="text" class="form-control" id="estadoCasamento" name="estadoCasamento" placeholder="Digite o estado">
+                                        <select id="estadoCasamento" name="estadoCasamento" class="form-select">
+                                            <!-- BUSCAGEM DE DADOS DE TABELAS NO SELECT -->
+                                            <%
+                                                String nomeEstadoCasamento = "";
+                                                String ufEstadoCasamento = "";
+                                                //RECUPERAR O NOME DO CAMPO PARA MOSTRAR INICIALMENTE NO SELECT
+                                                if (!estadoCasamento.equals("")) {
+                                                    rs = st.executeQuery("SELECT * FROM estados WHERE uf = '" + estadoCasamento + "'");
+                                                    while (rs.next()) {
+                                                        ufEstadoCasamento = rs.getString(2);
+                                                    }
+                                                    out.println("<option value='" + estadoCasamento + "'>" + ufEstadoCasamento + "</option>");
+                                                }
+                                                st = new Conexao().conectar().createStatement();
+                                                rs = st.executeQuery("SELECT * FROM estados");
+
+                                                while (rs.next()) {
+                                                    if (!nomeEstadoCasamento.equals(rs.getString(2))) {
+                                                        out.println("<option value='" + rs.getString(3) + "'>" + rs.getString(2) + "</option>");
+                                                    }
+                                                }
+                                            %>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -539,7 +700,29 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="estadoNascimento" class="col-form-label">Estado do Nascimento</label>
-                                        <input value="<%=estadoNascimento%>" type="text" class="form-control" id="estadoNascimento" name="estadoNascimento" placeholder="Digite o estado">
+                                        <select id="estadoNascimento" name="estadoNascimento" class="form-select">
+                                            <!-- BUSCAGEM DE DADOS DE TABELAS NO SELECT -->
+                                            <%
+                                                String nomeEstadoNascimento = "";
+                                                String ufEstadoNascimento = "";
+                                                //RECUPERAR O NOME DO CAMPO PARA MOSTRAR INICIALMENTE NO SELECT
+                                                if (!estadoNascimento.equals("")) {
+                                                    rs = st.executeQuery("SELECT * FROM estados WHERE uf = '" + estadoNascimento + "'");
+                                                    while (rs.next()) {
+                                                        ufEstadoNascimento = rs.getString(2);
+                                                    }
+                                                    out.println("<option value='" + estadoNascimento + "'>" + ufEstadoNascimento + "</option>");
+                                                }
+                                                st = new Conexao().conectar().createStatement();
+                                                rs = st.executeQuery("SELECT * FROM estados");
+
+                                                while (rs.next()) {
+                                                    if (!nomeEstadoNascimento.equals(rs.getString(2))) {
+                                                        out.println("<option value='" + rs.getString(3) + "'>" + rs.getString(2) + "</option>");
+                                                    }
+                                                }
+                                            %>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -552,7 +735,7 @@
                                 </div>
                             </div>
                             <input value="<%=id%>" type="hidden" name="txtid" id="txtid">
-                            <input value="<%=nome%>" type="hidden" name="antigo" id="antigo">
+                            <input value="<%=cpf%>" type="hidden" name="antigo" id="antigo">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="btn-fechar" name="btn-fechar" data-bs-dismiss="modal">Cancelar</button>
@@ -585,6 +768,14 @@
 
         <!-- FUNÇÃO PARA MODAL EDITAR -->
         <%
+            if (request.getParameter("funcao") != null && request.getParameter("funcao").equals("novo")) {
+                out.println("<script>$(document).ready(function () {$('#cadastrarPessoaModal').modal('show');});</script>");
+            }
+        %>
+        <!-- FUNÇÃO PARA MODAL EDITAR -->
+
+        <!-- FUNÇÃO PARA MODAL EDITAR -->
+        <%
             if (request.getParameter("funcao") != null && request.getParameter("funcao").equals("editar")) {
                 out.println("<script>$(document).ready(function () {$('#cadastrarPessoaModal').modal('show');});</script>");
             }
@@ -593,26 +784,21 @@
 
         <!-- FUNÇÃO PARA MODAL EXCLUIR -->
         <%
-            if (request.getParameter(
-                    "funcao") != null && request.getParameter("funcao").equals("excluir")) {
+            if (request.getParameter("funcao") != null && request.getParameter("funcao").equals("excluir")) {
                 out.println("<script>$(document).ready(function () {$('#modal-confima-delete').modal('show');});</script>");
             }
         %>
         <!-- FUNÇÃO PARA MODAL EXCLUIR -->
 
+        <script src="<%= request.getContextPath()%>/js/cadastros/jquery-3.7.1.min.js"></script>
+        <script src="<%= request.getContextPath()%>/js/cadastros/selects.js"></script>
         <script>
-            function setModalText(text) {
-                document.getElementById('titulo').textContent = text;
-            }
-        </script>
-
-        <!-- AJAX PARA INSERSÃO DE DADOS SEM IMAGEM-->
-        <script type="text/javascript">
+            // AJAX PARA INSERSÃO DE DADOS SEM IMAGEM
             $(document).ready(function () {
                 $('#btn-salvar').click(function (event) {
                     event.preventDefault();
                     $.ajax({
-                        url: "../../ajax/pessoa/inserir.jsp",
+                        url: "<%= request.getContextPath()%>/ajax/<%=pag%>/inserir.jsp",
                         method: "post",
                         data: $('#fc').serialize(),
                         dataType: "text",
@@ -633,6 +819,8 @@
                                 }
                                 $('#btn-fechar').click();
                                 $('#btn-buscar').click();
+                                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                                window.history.replaceState({path: newUrl}, '', newUrl);
                                 showPopupSuccess('Cadastrado Com Sucesso!');
                             } else if (mensagem.trim() === "Duplo") {
                                 function showPopup(message) {
@@ -647,6 +835,8 @@
                                         }, 300);
                                     }, 5000);
                                 }
+                                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                                window.history.replaceState({path: newUrl}, '', newUrl);
                                 showPopup('Registro já cadastrado!');
                             } else if (mensagem.trim() === "Preencha") {
                                 function showPopup(message) {
@@ -661,6 +851,8 @@
                                         }, 300);
                                     }, 5000);
                                 }
+                                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                                window.history.replaceState({path: newUrl}, '', newUrl);
                                 showPopup('Preencha Todos os Campos!');
                             } else {
                                 function showPopup(message) {
@@ -676,6 +868,8 @@
                                     }, 5000);
                                 }
                                 $('#btn-fechar').click();
+                                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                                window.history.replaceState({path: newUrl}, '', newUrl);
                                 showPopup('Erro ao Cadastrar!');
                             }
                             $('#mensagem').text(mensagem);
@@ -683,14 +877,11 @@
                     });
                 });
             });
-        </script>
-        <!-- AJAX PARA INSERSÃO DE DADOS -->
 
-        <!--AJAX PARA LISTAR OS DADOS -->
-        <script type="text/javascript">
+            // AJAX PARA LISTAR OS DADOS
             $(document).ready(function () {
                 $.ajax({
-                    url: "../../ajax/pessoa/listar.jsp",
+                    url: "<%= request.getContextPath()%>/ajax/<%=pag%>/listar.jsp",
                     method: "post",
                     dataType: "html",
                     success: function (result) {
@@ -702,15 +893,12 @@
                     }
                 });
             });
-        </script>
-        <!--AJAX PARA LISTAR OS DADOS -->
 
-        <!--AJAX PARA BUSCAR DADOS PELO BOTÃO -->
-        <script type="text/javascript">
+            // AJAX PARA BUSCAR DADOS PELO BOTÃO
             $('#btn-buscar').click(function (event) {
                 event.preventDefault();
                 $.ajax({
-                    url: "../../ajax/pessoa/listar.jsp",
+                    url: "<%= request.getContextPath()%>/ajax/<%=pag%>/listar.jsp",
                     method: "post",
                     data: $('form').serialize(),
                     dataType: "html",
@@ -719,24 +907,18 @@
                     }
                 });
             });
-        </script>
-        <!--AJAX PARA BUSCAR DADOS PELO BOTÃO -->
 
-        <!--AJAX PARA BUSCAR DADOS PELO TXT -->
-        <script type="text/javascript">
+            // AJAX PARA BUSCAR DADOS PELO TXT 
             $('#buscar').keyup(function () {
                 $('#btn-buscar').click();
             });
-        </script>
-        <!--AJAX PARA BUSCAR DADOS PELO TXT -->
 
-        <!--AJAX PARA EXCLUSÃO DOS DADOS -->
-        <script type="text/javascript">
+            // AJAX PARA EXCLUSÃO DOS DADOS 
             $(document).ready(function () {
                 $('#btn-confirma-excluir').click(function (event) {
                     event.preventDefault();
                     $.ajax({
-                        url: "../../ajax/pessoa/excluir.jsp",
+                        url: "<%= request.getContextPath()%>/ajax/<%=pag%>/excluir.jsp",
                         method: "post",
                         data: $('form').serialize(),
                         dataType: "text",
@@ -753,7 +935,6 @@
                                             popup.remove();
                                         }, 300);
                                     }, 5000);
-                                    // Remover o parâmetro funcao da URL sem recarregar a página
                                     const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
                                     window.history.replaceState({path: newUrl}, '', newUrl);
                                 }
@@ -767,8 +948,156 @@
                     });
                 });
             });
-        </script>
-        <!--AJAX PARA EXCLUSÃO DOS DADOS -->
-    </body>
 
+            // VALIDAÇÃO DE CPF E CEP E RG
+            $(document).ready(function () {
+                function aplicarMascara() {
+                    $("#cep").on("input", function () {
+                        let value = $(this).val().replace(/\D/g, "").slice(0, 8);
+                        if (value.length > 5) {
+                            value = value.replace(/^(\d{5})(\d)/, "$1-$2");
+                        }
+                        $(this).val(value);
+                    });
+
+                    $("#cpf").on("input", function () {
+                        let value = $(this).val().replace(/\D/g, "").slice(0, 11);
+                        if (value.length > 9) {
+                            value = value.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                        } else if (value.length > 6) {
+                            value = value.replace(/^(\d{3})(\d{3})(\d{3})/, "$1.$2.$3");
+                        } else if (value.length > 3) {
+                            value = value.replace(/^(\d{3})(\d{3})/, "$1.$2");
+                        }
+                        $(this).val(value);
+                    });
+
+                    $("#fone").on("input", function () {
+                        let value = $(this).val().replace(/\D/g, "").slice(0, 11);
+                        if (value.length === 11) {
+                            value = value.replace(/^(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+                        } else if (value.length === 10) {
+                            value = value.replace(/^(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+                        }
+                        $(this).val(value);
+                    });
+
+                    $("#telefone").on("input", function () {
+                        let value = $(this).val().replace(/\D/g, "").slice(0, 10);
+                        if (value.length > 6) {
+                            value = value.replace(/^(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+                        } else if (value.length > 2) {
+                            value = value.replace(/^(\d{2})(\d{4})/, "($1) $2");
+                        }
+                        $(this).val(value);
+                    });
+
+                    $("#rg").on("input", function () {
+                        let value = $(this).val().replace(/\D/g, "").slice(0, 9);
+                        if (value.length > 7) {
+                            value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
+                        } else if (value.length > 4) {
+                            value = value.replace(/^(\d{2})(\d{3})(\d{3})/, "$1.$2.$3");
+                        } else if (value.length > 2) {
+                            value = value.replace(/^(\d{2})(\d{3})/, "$1.$2");
+                        }
+                        $(this).val(value);
+                    });
+                }
+
+                aplicarMascara();
+
+                function validarRG(rg) {
+                    rg = rg.replace(/\D/g, "");
+                    return rg.length === 9;
+                }
+
+                $('#rg').blur(function () {
+                    let rg = $(this).val();
+                    if (!validarRG(rg)) {
+                        $(this).addClass('is-invalid').removeClass('is-valid');
+                        $('#rg-invalid').show();
+                    } else {
+                        $(this).removeClass('is-invalid').addClass('is-valid');
+                        $('#rg-invalid').hide();
+                    }
+                });
+
+                function validarCPF(cpf) {
+                    cpf = cpf.replace(/\D/g, "");
+
+                    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+                        return false;
+                    }
+
+                    let soma = 0, resto;
+                    for (let i = 1; i <= 9; i++) {
+                        soma += parseInt(cpf[i - 1]) * (11 - i);
+                    }
+                    resto = (soma * 10) % 11;
+                    if (resto === 10 || resto === 11)
+                        resto = 0;
+                    if (resto !== parseInt(cpf[9]))
+                        return false;
+
+                    soma = 0;
+                    for (let i = 1; i <= 10; i++) {
+                        soma += parseInt(cpf[i - 1]) * (12 - i);
+                    }
+                    resto = (soma * 10) % 11;
+                    if (resto === 10 || resto === 11)
+                        resto = 0;
+                    if (resto !== parseInt(cpf[10]))
+                        return false;
+
+                    return true;
+                }
+
+                $('#cpf').blur(function () {
+                    let cpf = $(this).val().replace(/\D/g, '');
+                    if (!validarCPF(cpf)) {
+                        $(this).addClass('is-invalid').removeClass('is-valid');
+                        $('#cpf-invalid').show();
+                    } else {
+                        $(this).removeClass('is-invalid').addClass('is-valid');
+                        $('#cpf-invalid').hide();
+                    }
+                });
+
+                $('#cep').blur(function () {
+                    var vl = this.value;
+                    $.get('https://viacep.com.br/ws/' + vl + '/json/', function (dados) {
+                        if (!dados.erro) {
+                            $('#rua').val(dados.logradouro);
+                            $('#bairro').val(dados.bairro);
+                            $('#cidade').val(dados.localidade);
+                            $('#estado').val(dados.uf);
+
+                            $('#cep').removeClass('is-invalid').addClass('is-valid');
+                            $('#cep-invalid').hide();
+                        } else {
+                            $('#cep').addClass('is-invalid').removeClass('is-valid');
+                            $('#cep-invalid').show();
+                        }
+                    }).fail(function () {
+                        $('#cep').addClass('is-invalid').removeClass('is-valid');
+                        $('#cep-invalid').show();
+                    });
+                });
+            });
+
+            // SPAN NO CAMPO DE NOME SOCIAL
+            $(document).ready(function () {
+                $("#nomeSocial").focus(function () {
+                    $("#nomeSocial-invalid").show();
+                });
+
+                $("#nomeSocial").blur(function () {
+                    if ($(this).val().trim() !== "") {
+                        $("#nomeSocial-invalid").hide();
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
