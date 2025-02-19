@@ -203,6 +203,7 @@
                             String dataNasc = "";
                             String funcao = "";
                             String senha = "";
+                            String confirmSenha = "";
                             String permissao = "";
                             String departamento = "";
                             String dataAdmissao = "";
@@ -275,6 +276,7 @@
                                     <div class="col-md-6">
                                         <label for="cpf" class="col-form-label">CPF</label>
                                         <input value="<%=cpf%>" type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite aqui o cpf do usuário" maxlength="255">
+                                        <span id="cpf-invalid" class="invalid-feedback">CPF inválido!</span>
                                     </div>
                                 </div>
                             </div>
@@ -294,11 +296,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="senha" class="col-form-label">Senha</label>
-                                        <input value="<%=senha%>" type="password" class="form-control" id="senha" name="senha" placeholder="Digite aqui a senha do usuário" maxlength="255">
+                                        <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite a senha do usuário" maxlength="255" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="senha" class="col-form-label">Senha</label>
-                                        <input value="<%=senha%>" type="password" class="form-control" id="senha" name="senha" placeholder="Digite aqui a senha do usuário" maxlength="255">
+                                        <label for="confirmSenha" class="col-form-label">Confirmar Senha</label>
+                                        <input type="password" class="form-control" id="confirmSenha" name="confirmSenha" placeholder="Repita a senha" maxlength="255" required>
+                                        <span id="senha-error" class="invalid-feedback">As senhas não coincidem!</span>
                                     </div>
                                 </div>
                             </div>
@@ -512,7 +515,6 @@
                     }
                 });
             });
-
             // AJAX PARA LISTAR OS DADOS
             $(document).ready(function () {
                 $.ajax({
@@ -528,7 +530,6 @@
                     }
                 });
             });
-
             // AJAX PARA BUSCAR DADOS PELO BOTÃO
             $('#btn-buscar').click(function (event) {
                 event.preventDefault();
@@ -542,12 +543,10 @@
                     }
                 });
             });
-
             // AJAX PARA BUSCAR DADOS PELO TXT 
             $('#buscar').keyup(function () {
                 $('#btn-buscar').click();
             });
-
             // AJAX PARA EXCLUSÃO DOS DADOS 
             $(document).ready(function () {
                 $('#btn-confirma-excluir').click(function (event) {
@@ -582,6 +581,83 @@
                             }
                         }
                     });
+                });
+            });
+            $(document).ready(function () {
+                function aplicarMascara() {
+                    $("#cpf").on("input", function () {
+                        let value = $(this).val().replace(/\D/g, "").slice(0, 11);
+                        if (value.length > 9) {
+                            value = value.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                        } else if (value.length > 6) {
+                            value = value.replace(/^(\d{3})(\d{3})(\d{3})/, "$1.$2.$3");
+                        } else if (value.length > 3) {
+                            value = value.replace(/^(\d{3})(\d{3})/, "$1.$2");
+                        }
+                        $(this).val(value);
+                    });
+                    $("#fone").on("input", function () {
+                        let value = $(this).val().replace(/\D/g, "").slice(0, 11);
+                        if (value.length === 11) {
+                            value = value.replace(/^(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+                        } else if (value.length === 10) {
+                            value = value.replace(/^(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+                        }
+                        $(this).val(value);
+                    });
+                }
+
+                aplicarMascara();
+                function validarCPF(cpf) {
+                    cpf = cpf.replace(/\D/g, "");
+                    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+                        return false;
+                    }
+
+                    let soma = 0, resto;
+                    for (let i = 1; i <= 9; i++) {
+                        soma += parseInt(cpf[i - 1]) * (11 - i);
+                    }
+                    resto = (soma * 10) % 11;
+                    if (resto === 10 || resto === 11)
+                        resto = 0;
+                    if (resto !== parseInt(cpf[9]))
+                        return false;
+                    soma = 0;
+                    for (let i = 1; i <= 10; i++) {
+                        soma += parseInt(cpf[i - 1]) * (12 - i);
+                    }
+                    resto = (soma * 10) % 11;
+                    if (resto === 10 || resto === 11)
+                        resto = 0;
+                    if (resto !== parseInt(cpf[10]))
+                        return false;
+                    return true;
+                }
+
+                $('#cpf').blur(function () {
+                    let cpf = $(this).val().replace(/\D/g, '');
+                    if (!validarCPF(cpf)) {
+                        $(this).addClass('is-invalid').removeClass('is-valid');
+                        $('#cpf-invalid').show();
+                    } else {
+                        $(this).removeClass('is-invalid').addClass('is-valid');
+                        $('#cpf-invalid').hide();
+                    }
+                });
+            });
+
+            $(document).ready(function () {
+                $('#confirmSenha').on('blur', function () {
+                    let senha = $('#senha').val();
+                    let confirmSenha = $('#confirmSenha').val();
+                    if (senha !== confirmSenha) {
+                        $('#senha, #confirmSenha').removeClass('is-valid').addClass('is-invalid');
+                        $('#senha-error').show();
+                    } else {
+                        $('#senha, #confirmSenha').removeClass('is-invalid').addClass('is-valid');
+                        $('#senha-error').hide();
+                    }
                 });
             });
         </script>
