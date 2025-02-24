@@ -791,6 +791,7 @@
         <!-- FUNÇÃO PARA MODAL EXCLUIR -->
 
         <script src="<%= request.getContextPath()%>/js/cadastros/jquery-3.7.1.min.js"></script>
+
         <script>
             // AJAX PARA INSERSÃO DE DADOS SEM IMAGEM
             $(document).ready(function () {
