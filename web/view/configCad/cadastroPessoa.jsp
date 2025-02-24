@@ -170,7 +170,7 @@
             </div>
             <div class="container">
                 <div id="listar" class="listar"></div>
-                <div id="mensagem"></div>
+                <div id="mensagem" hidden></div>
             </div>
         </main>
 
@@ -530,14 +530,14 @@
                                                 String ufEstadoNatu = "";
                                                 //RECUPERAR O NOME DO CAMPO PARA MOSTRAR INICIALMENTE NO SELECT
                                                 if (!estadoNatu.equals("")) {
-                                                    rs = st.executeQuery("SELECT * FROM estados WHERE uf = '" + estadoNatu + "'");
+                                                    rs = st.executeQuery("SELECT * FROM estado WHERE uf = '" + estadoNatu + "'");
                                                     while (rs.next()) {
                                                         ufEstadoNatu = rs.getString(2);
                                                     }
                                                     out.println("<option value='" + estadoNatu + "'>" + ufEstadoNatu + "</option>");
                                                 }
                                                 st = new Conexao().conectar().createStatement();
-                                                rs = st.executeQuery("SELECT * FROM estados");
+                                                rs = st.executeQuery("SELECT * FROM estado");
 
                                                 while (rs.next()) {
                                                     if (!nomeEstadoNatu.equals(rs.getString(2))) {
@@ -649,14 +649,14 @@
                                                 String ufEstadoCasamento = "";
                                                 //RECUPERAR O NOME DO CAMPO PARA MOSTRAR INICIALMENTE NO SELECT
                                                 if (!estadoCasamento.equals("")) {
-                                                    rs = st.executeQuery("SELECT * FROM estados WHERE uf = '" + estadoCasamento + "'");
+                                                    rs = st.executeQuery("SELECT * FROM estado WHERE uf = '" + estadoCasamento + "'");
                                                     while (rs.next()) {
                                                         ufEstadoCasamento = rs.getString(2);
                                                     }
                                                     out.println("<option value='" + estadoCasamento + "'>" + ufEstadoCasamento + "</option>");
                                                 }
                                                 st = new Conexao().conectar().createStatement();
-                                                rs = st.executeQuery("SELECT * FROM estados");
+                                                rs = st.executeQuery("SELECT * FROM estado");
 
                                                 while (rs.next()) {
                                                     if (!nomeEstadoCasamento.equals(rs.getString(2))) {
@@ -707,14 +707,14 @@
                                                 String ufEstadoNascimento = "";
                                                 //RECUPERAR O NOME DO CAMPO PARA MOSTRAR INICIALMENTE NO SELECT
                                                 if (!estadoNascimento.equals("")) {
-                                                    rs = st.executeQuery("SELECT * FROM estados WHERE uf = '" + estadoNascimento + "'");
+                                                    rs = st.executeQuery("SELECT * FROM estado WHERE uf = '" + estadoNascimento + "'");
                                                     while (rs.next()) {
                                                         ufEstadoNascimento = rs.getString(2);
                                                     }
                                                     out.println("<option value='" + estadoNascimento + "'>" + ufEstadoNascimento + "</option>");
                                                 }
                                                 st = new Conexao().conectar().createStatement();
-                                                rs = st.executeQuery("SELECT * FROM estados");
+                                                rs = st.executeQuery("SELECT * FROM estado");
 
                                                 while (rs.next()) {
                                                     if (!nomeEstadoNascimento.equals(rs.getString(2))) {
@@ -730,7 +730,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="outros" class="col-form-label">Outros Documentos</label>
-                                        <textarea class="form-control" id="outros" name="outros" rows="2"><%=outros%></textarea>
+                                        <input type="file" class="form-control" id="outros" name="outros">
                                     </div>
                                 </div>
                             </div>
@@ -791,7 +791,6 @@
         <!-- FUNÇÃO PARA MODAL EXCLUIR -->
 
         <script src="<%= request.getContextPath()%>/js/cadastros/jquery-3.7.1.min.js"></script>
-        <script src="<%= request.getContextPath()%>/js/cadastros/selects.js"></script>
         <script>
             // AJAX PARA INSERSÃO DE DADOS SEM IMAGEM
             $(document).ready(function () {
