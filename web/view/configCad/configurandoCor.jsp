@@ -12,7 +12,7 @@
 
     <body>
         <main id="main">
-            <h1></h1>
+            <h1>Configurando Cores</h1>
         </main>
     </body>
 </html>

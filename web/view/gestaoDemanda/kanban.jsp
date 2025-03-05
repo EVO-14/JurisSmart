@@ -12,7 +12,7 @@
 
     <body>
         <main id="main">
-            <h1></h1>
+            <h1>Kanban</h1>
         </main>
     </body>
 </html>

@@ -12,7 +12,7 @@
 
     <body>
         <main id="main">
-            <h1></h1>
+            <h1>Doutrinas</h1>
         </main>
     </body>
 </html>
