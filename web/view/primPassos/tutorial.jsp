@@ -1,17 +1,18 @@
-<%-- 
-    Document   : tutorial
-    Created on : 05/03/2025, 09:22:27
-    Author     : duduv
---%>
+<%@ include file="../template/_cabecalho.jsp" %>
+<%@ include file="../template/_lateral.jsp" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>| JurisSmart |</title>       
     </head>
+
     <body>
-        <h1>Hello World!</h1>
+        <main id="main">
+            <h1>Tutorial Inicial</h1>
+        </main>
     </body>
 </html>

@@ -9,8 +9,8 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Tutorial Inicial</a></li>
-                    <li><a href="#">Passo a Passo</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/primPassos/tutorial.jsp">Tutorial Inicial</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/primPassos/passoPasso.jsp">Passo a Passo</a></li>
                 </ul>
             </li>
 
@@ -21,13 +21,13 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Configurando Modelos</a></li>
-                    <li><a href="#">Configurando Cores</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/configCad/configurandoModelo.jsp">Configurando Modelos</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/configCad/configurandoCor.jsp">Configurando Cores</a></li>
                     <li><a href="<%= request.getContextPath()%>/view/configCad/cadastroUsuario.jsp">Cadastro de Usuários</a></li>
                     <li><a href="<%= request.getContextPath()%>/view/configCad/cadastroPessoa.jsp">Cadastro de Pessoas</a></li>
-                    <li><a href="#">Cadastro de Parâmetros</a></li>
-                    <li><a href="#">Cadastros de Metas de Produtividade</a></li>
-                    <li><a href="#">Cadastro de Metas Para Gestão de Tempo</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/configCad/cadastroParametro.jsp">Cadastro de Parâmetros</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/configCad/cadastroProdutividade.jsp">Cadastros de Metas de Produtividade</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/configCad/cadastroTempo.jsp">Cadastro de Metas Para Gestão de Tempo</a></li>
                 </ul>
             </li>
 
@@ -38,8 +38,8 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Lista de Clientes</a></li>
-                    <li><a href="#">Histórico de Comunicação</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoCli/listaCli.jsp">Lista de Clientes</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoCli/historicoComun.jsp">Histórico de Comunicação</a></li>
                 </ul>
             </li>
 
@@ -50,8 +50,8 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Visão Resumida</a></li>
-                    <li><a href="#">Relatórios</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/visãoGeral/visãoResu.jsp">Visão Resumida</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/visãoGeral/relatorio.jsp">Relatórios</a></li>
                 </ul>
             </li>
 
@@ -62,24 +62,23 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Painel de Trabalho Gerencial</a></li>
-                    <li><a href="#">Minha Agenda</a></li>
-                    <li><a href="#">Minhas Tarefas</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/meusComp/painelTrab.jsp">Painel de Trabalho Gerencial</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/meusComp/minhaAgenda.jsp">Minha Agenda</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/meusComp/minhaTarefa.jsp">Minhas Tarefas</a></li>
                 </ul>
             </li>
 
             <li>
                 <a href="#" class="menu-item">
-
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/code-scan-svgrepo-com.svg" alt="[]">
                     <span>Gestão de Demandas</span>
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Kanban</a></li>
-                    <li><a href="#">Nova Demanda</a></li>
-                    <li><a href="#">Lista de Demandas</a></li>
-                    <li><a href="#">Movimentações Processuais</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoDemanda/kanban.jsp">Kanban</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoDemanda/novaDemanda.jsp">Nova Demanda</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoDemanda/listaDemanda.jsp">Lista de Demandas</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoDemanda/movimentacaoProc.jsp">Movimentações Processuais</a></li>
                 </ul>
             </li>
 
@@ -90,9 +89,9 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Consultar Processos</a></li>
-                    <li><a href="#">Novo Processo Judicial</a></li>
-                    <li><a href="#">Novo Processo Administrativo</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoProcesso/consultarProc.jsp">Consultar Processos</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoProcesso/novoProcJud.jsp">Novo Processo Judicial</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/gestaoProcesso/novoProcAdm.jsp">Novo Processo Administrativo</a></li>
                 </ul>
             </li>
 
@@ -103,7 +102,7 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Documentos Administrativos</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/producaoJur/documentoAdm.jsp">Documentos Administrativos</a></li>
                 </ul>
             </li>
 
@@ -120,7 +119,7 @@
                             <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow down">
                         </a>
                         <ul class="sub-submenu">
-                            <li><a href="#">Passo a Passo</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/primeirosPassos/passoPasso.jsp">Passo a Passo</a></li>
                         </ul>
                     </li>
                     <li>
@@ -129,10 +128,10 @@
                             <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow down">
                         </a>
                         <ul class="sub-submenu">
-                            <li><a href="#">Categorias</a></li>
-                            <li><a href="#">Contas</a></li>
-                            <li><a href="#">Contatos</a></li>
-                            <li><a href="#">Tags</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/cadastros/categorias.jsp">Categorias</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/cadastros/contas.jsp">Contas</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/cadastros/contatos.jsp">Contatos</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/cadastros/tags.jsp">Tags</a></li>
                         </ul>
                     </li>
                     <li>
@@ -141,9 +140,9 @@
                             <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow down">
                         </a>
                         <ul class="sub-submenu">
-                            <li><a href="#">Orçamento</a></li>
-                            <li><a href="#">Economia</a></li>
-                            <li><a href="#">Relatórios</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/metas/orcamento.jsp">Orçamento</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/metas/economia.jsp">Economia</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/metas/relatorio.jsp">Relatórios</a></li>
                         </ul>
                     </li>
                     <li>
@@ -152,16 +151,16 @@
                             <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow down">
                         </a>
                         <ul class="sub-submenu">
-                            <li><a href="#">Contas a Pagar</a></li>
-                            <li><a href="#">Contas a Receber</a></li>
-                            <li><a href="#">Últimos Lançamentos</a></li>
-                            <li><a href="#">Fluxo de Caixa</a></li>
-                            <li><a href="#">Extrato de Contas</a></li>
-                            <li><a href="#">Cartões</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/movimentacoesFinanceiras/contasPagar.jsp">Contas a Pagar</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/movimentacoesFinanceiras/contasReceber.jsp">Contas a Receber</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/movimentacoesFinanceiras/ultimoLancamento.jsp">Últimos Lançamentos</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/movimentacoesFinanceiras/fluxoCaixa.jsp">Fluxo de Caixa</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/movimentacoesFinanceiras/extratoConta.jsp">Extrato de Contas</a></li>
+                            <li><a href="<%= request.getContextPath()%>/view/financeiro/movimentacoesFinanceiras/cartoes.jsp">Cartões</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#" class="submenu-item">
+                        <a href="<%= request.getContextPath()%>/view/financeiro/investimento.jsp" class="submenu-item">
                             <span>Investimentos</span>
                         </a>
                     </li>
@@ -175,11 +174,11 @@
                     <img src="<%= request.getContextPath()%>/imagens/icons/template/arrow-down-svgrepo-com.svg" alt="[]" class="arrow">
                 </a>
                 <ul class="submenu">
-                    <li><a href="#">Legislações</a></li>
-                    <li><a href="#">Jurisprudências</a></li>
-                    <li><a href="#">Doutrinas</a></li>
-                    <li><a href="#">Artigos Científicos</a></li>
-                    <li><a href="#">Pod Casts</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/bibliotecaJur/legislacao.jsp">Legislações</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/bibliotecaJur/jurisprudencia.jsp">Jurisprudências</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/bibliotecaJur/doutrina.jsp">Doutrinas</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/bibliotecaJur/artigoCientifico.jsp">Artigos Científicos</a></li>
+                    <li><a href="<%= request.getContextPath()%>/view/bibliotecaJur/podCast.jsp">Pod Casts</a></li>
                 </ul>
             </li>
         </ul>

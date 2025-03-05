@@ -316,7 +316,8 @@
                 width: calc(100% - 20rem);
             }
 
-            main p {
+            main p,
+            main h1 {
                 color: var(--text-color);
             }
 

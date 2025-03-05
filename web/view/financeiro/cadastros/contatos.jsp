@@ -1,5 +1,5 @@
-<%@ include file="../template/_cabecalho.jsp" %>
-<%@ include file="../template/_lateral.jsp" %>
+<%@ include file="../../template/_cabecalho.jsp" %>
+<%@ include file="../../template/_lateral.jsp" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
 
     <body>
         <main id="main">
-            <h1>Passo a Passo</h1>
+            <h1>Contatos</h1>
         </main>
     </body>
 </html>
