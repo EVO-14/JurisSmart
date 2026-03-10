@@ -1,4 +1,4 @@
-# 📚 JurisSmart
+# JurisSmart
 
 Sistema web desenvolvido em **JSP + AJAX + MySQL** para gerenciamento de registros com operações **CRUD (Create, Read, Update, Delete)**.
 
@@ -6,7 +6,7 @@ O projeto simula um pequeno **sistema administrativo**, permitindo autenticaçã
 
 ---
 
-# 🚀 Tecnologias utilizadas
+# Tecnologias utilizadas
 
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
@@ -22,7 +22,7 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 ---
 
-# 🖥️ Funcionalidades
+# Funcionalidades
 
 O sistema possui funcionalidades básicas de um painel administrativo.
 
